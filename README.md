@@ -1,46 +1,48 @@
-# Prompt Generator
+# Gerenciador de Prompts
 
-A minimal web interface that lets a user type a prompt and optionally upload an image. Each entry is stored in a tiny SQLite database.
+Projeto desenvolvido para a disciplina de Banco de Dados II.  
+Alunos: Nicolas e Nathan.
 
-## How to run
-1. Make sure you have Python 3.9+ installed.
-2. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-3. Start the app:
-   ```
-   python app.py
-   ```
-4. Open a browser at `http://127.0.0.1:5000/`.
+## Descricao
+Aplicacao web desenvolvida em Python (Flask) integrada a um banco de dados relacional SQLite para registro, edicao e acompanhamento de evolucao de prompts. O sistema suporta anexo de imagens e mantem o historico de derivacao das versoes cadastradas.
 
-## Project structure
+## Banco de Dados
+O banco de dados SQLite local (`prompts.db`) armazena os dados na tabela `prompts`:
+
+- `id`: Identificador unico (INTEGER, Chave Primaria, Autoincremento).
+- `text`: Texto do prompt (TEXT, obrigatorio).
+- `image_path`: Caminho relativo da imagem enviada no upload (TEXT, opcional).
+- `parent_id`: Referencia ao prompt de origem (INTEGER, auto-relacionamento com `prompts.id`). Permite identificar qual prompt gerou uma nova versao quando utilizada a acao de evolucao.
+
+## Estrutura do Projeto
 ```
 prompt_ai/
-│   app.py               # Flask server, DB handling
-│   requirements.txt      # Python packages
-│   README.md             # This file
-│
-├───templates
-│       index.html       # Simple UI
-│
-└───static
-    └───uploads          # Uploaded images (created at runtime)
+|-- app.py                  # Rotas da aplicacao e manipulacao do SQLite
+|-- requirements.txt        # Dependencias Python
+|-- prompts.db              # Banco de dados SQLite
+|-- orientacoes_apresentacao.md # Roteiro de apresentacao
+|-- README.md               # Documentacao do projeto
+|-- static/
+|   |-- ia.jpg              # Imagem de apresentacao da interface
+|   `-- uploads/            # Diretorio onde sao salvas as imagens enviadas
+`-- templates/
+    |-- index.html          # Pagina principal (cadastro, listagem e acoes)
+    `-- edit.html           # Tela de edicao de prompts
 ```
 
-## Presentation guide
-- **Goal** – Show how the IA can generate a prompt based on user‑provided text and an optional image.
-- **Demo steps**
-  1. Open the web page.
-  2. Fill the *Prompt text* field.
-  3. (Optional) attach an image.
-  4. Click **Save** – the page refreshes and the new entry appears below.
-- **Talking points**
-  - Simple Flask + SQLite keeps the implementation lightweight.
-  - The UI is pure HTML/CSS – no JavaScript frameworks needed.
-  - All data is stored locally; no external services are required.
-- **What to emphasise**
-  - Clean separation: UI (templates) vs. data layer (SQLite).
-  - Extensibility – the DB can be expanded with more columns (e.g., generation parameters) without changing the core logic.
+## Instrucoes de Execucao
 
-Feel free to adapt the wording for your presentation slide deck.
+1. Instale as dependencias do projeto:
+```bash
+pip install -r requirements.txt
+```
+
+2. Inicie o servidor:
+```bash
+python app.py
+```
+
+3. Acesse a aplicacao pelo navegador:
+```
+http://127.0.0.1:5000
+```
